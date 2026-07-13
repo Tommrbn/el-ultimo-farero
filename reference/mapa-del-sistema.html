@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Referencia: mapa de El Último Farero</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">Referencia imprimible · v1</p>
+  <h1>Mapa del sistema</h1>
+  <p class="lead">La ruta mínima para orientarse antes de leer detalles de código.</p>
+
+  <section class="map" aria-label="Flujo de arranque del juego">
+    <article><small>Configuración</small><strong>project.godot</strong><br>Elige la escena inicial.</article>
+    <article><small>Composición</small><strong>main.tscn</strong><br>Crea el nodo raíz Main.</article>
+    <article><small>Dirección</small><strong>main.gd</strong><br>Coordina reglas y sistemas.</article>
+    <article><small>Actores</small><strong>scripts de entidades</strong><br>Ejecutan conducta propia.</article>
+    <article><small>Resultado</small><strong>cuadro en pantalla</strong><br>Godot repite el ciclo.</article>
+  </section>
+
+  <h2>Responsabilidades actuales</h2>
+  <table>
+    <thead><tr><th>Archivo</th><th>Responsabilidad</th><th>No debería decidir</th></tr></thead>
+    <tbody>
+      <tr><td><code>project.godot</code></td><td>Configuración del motor y escena inicial.</td><td>Reglas de combate.</td></tr>
+      <tr><td><code>main.tscn</code></td><td>Composición inicial de nodos.</td><td>Movimiento del jugador.</td></tr>
+      <tr><td><code>main.gd</code></td><td>Ciclo de partida, spawn, combate, experiencia e interfaz.</td><td>Detalles visuales internos de cada entidad.</td></tr>
+      <tr><td><code>jugador.gd</code></td><td>Movimiento, salud, regeneración y dibujo del farero.</td><td>Cuándo nace un enemigo.</td></tr>
+      <tr><td><code>enemigo.gd</code></td><td>Tipos, persecución, estadísticas y dibujo del enemigo.</td><td>Cuándo sube de nivel el jugador.</td></tr>
+      <tr><td><code>orbe.gd</code></td><td>Movimiento, duración y dibujo del proyectil.</td><td>Seleccionar mejoras.</td></tr>
+      <tr><td><code>gema.gd</code></td><td>Valor de experiencia y dibujo de la gema.</td><td>Calcular el próximo nivel.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Vocabulario mínimo</h2>
+  <div class="card">
+    <p><strong>Nodo:</strong> objeto básico que puede vivir en el árbol del juego.</p>
+    <p><strong>Escena:</strong> árbol de nodos guardado y reutilizable.</p>
+    <p><strong>Script:</strong> comportamiento escrito que extiende un nodo.</p>
+    <p><strong>Cuadro o frame:</strong> una imagen del juego; el motor actualiza el estado antes de mostrar la siguiente.</p>
+    <p><strong>Responsabilidad:</strong> decisión o trabajo que pertenece a una parte concreta del sistema.</p>
+  </div>
+
+  <p class="source">Fuente conceptual: <a href="https://docs.godotengine.org/en/stable/getting_started/introduction/key_concepts_overview.html">Conceptos clave de Godot</a>.</p>
+  <nav class="next"><a href="../lessons/0001-del-f5-al-primer-frame.html">← Volver a la Lección 1</a></nav>
+</main>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lección 1: de F5 al primer frame</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">Lección 1 · Arquitectura · 10 minutos</p>
+  <h1>De F5 al primer frame</h1>
+  <p class="lead">Antes de aprender instrucciones de GDScript, vas a aprender a orientarte. Al terminar, podrás narrar quién arranca el juego, quién lo coordina y quién ejecuta cada comportamiento.</p>
+
+  <div class="win"><strong>Victoria tangible:</strong> explicar el recorrido completo de ejecución usando cinco cajas, sin abrir cada función.</div>
+
+  <h2>1. Mirá el sistema desde arriba</h2>
+  <section class="map" aria-label="Flujo de arranque del juego">
+    <article><small>F5 consulta</small><strong>project.godot</strong><br>¿Cuál es la escena principal?</article>
+    <article><small>Godot carga</small><strong>main.tscn</strong><br>¿Qué nodo existe primero?</article>
+    <article><small>La escena adjunta</small><strong>main.gd</strong><br>¿Quién dirige la partida?</article>
+    <article><small>El director crea</small><strong>entidades</strong><br>Jugador, enemigos, orbes y gemas.</article>
+    <article><small>El motor repite</small><strong>cada frame</strong><br>Entrada → reglas → dibujo.</article>
+  </section>
+
+  <p>Godot modela un juego como árboles de nodos agrupados en escenas. El motor necesita una escena principal y guarda su ruta en <code>project.godot</code>. Esa descripción coincide exactamente con este proyecto: la configuración apunta a <code>main.tscn</code>, y esa escena adjunta <code>main.gd</code>. <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/nodes_and_scenes.html">Documentación oficial: nodos y escenas</a>.</p>
+
+  <h2>2. Separá director de actores</h2>
+  <table>
+    <thead><tr><th>Papel mental</th><th>Archivo real</th><th>Pregunta que responde</th></tr></thead>
+    <tbody>
+      <tr><td>Puerta de entrada</td><td><code>project.godot</code> + <code>main.tscn</code></td><td>¿Dónde empieza el juego?</td></tr>
+      <tr><td>Director</td><td><code>main.gd</code></td><td>¿Qué debe ocurrir en la partida?</td></tr>
+      <tr><td>Actor</td><td><code>jugador.gd</code></td><td>¿Cómo se mueve y vive el farero?</td></tr>
+      <tr><td>Actor</td><td><code>enemigo.gd</code></td><td>¿Cómo persigue una criatura?</td></tr>
+      <tr><td>Actores menores</td><td><code>orbe.gd</code> + <code>gema.gd</code></td><td>¿Cómo se comporta ese objeto?</td></tr>
+    </tbody>
+  </table>
+
+  <p><code>_ready()</code> prepara el nodo cuando está listo dentro del árbol. <code>_process(delta)</code> recibe una llamada durante cada cuadro habilitado. Por eso el primero sirve para construir y el segundo para mantener vivo el juego. <a href="https://docs.godotengine.org/en/stable/classes/class_node.html">Referencia oficial de Node</a>.</p>
+
+  <h2>3. Comprobalo en el proyecto</h2>
+  <div class="card">
+    <ol>
+      <li>Abrí <code>project.godot</code> y encontrá <code>run/main_scene="res://main.tscn"</code>.</li>
+      <li>Abrí <code>main.tscn</code> y encontrá la referencia a <code>res://main.gd</code>.</li>
+      <li>Abrí <code>main.gd</code>: localizá <code>_ready()</code>, después <code>_process(delta)</code>.</li>
+      <li>Sin leer sus interiores, decí en voz alta: “configuración → escena → director → actores → frames”.</li>
+      <li>Ejecutá F5. Ahora relacioná lo visible con esa cadena.</li>
+    </ol>
+  </div>
+
+  <h2>4. Recuperá el mapa sin mirarlo</h2>
+  <p>Tapá mentalmente las cajas anteriores. Escribir la respuesta obliga al cerebro a recuperarla; esa pequeña dificultad construye memoria durable.</p>
+
+  <div class="retrieval" data-retrieval data-answer="project.godot" data-hint="Pista: es el archivo de configuración que contiene run/main_scene.">
+    <label for="q1">¿Qué archivo consulta Godot para saber cuál es la escena inicial?</label>
+    <div class="answer-row"><input id="q1" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <div class="retrieval" data-retrieval data-answer="main.gd" data-hint="Pista: es el script que tiene _ready() y coordina spawn, combate y experiencia.">
+    <label for="q2">¿Qué archivo actúa hoy como director de toda la partida?</label>
+    <div class="answer-row"><input id="q2" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <div class="retrieval" data-retrieval data-answer="jugador.gd" data-hint="Pista: buscá el actor que posee velocidad, vida y dirección.">
+    <label for="q3">¿Dónde buscarías primero si el farero no se mueve?</label>
+    <div class="answer-row"><input id="q3" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <h2>Idea que debe quedar</h2>
+  <div class="win">Un ingeniero no empieza leyendo cada línea. Primero encuentra la entrada, dibuja el flujo y asigna responsabilidades. Después baja al detalle que necesita.</div>
+
+  <p class="source"><strong>Lectura primaria recomendada:</strong> <a href="https://docs.godotengine.org/en/stable/getting_started/introduction/key_concepts_overview.html">Conceptos clave de Godot</a>. Leé solamente las secciones “Scenes”, “Nodes” y “The scene tree”.</p>
+
+  <nav class="next">
+    <a href="../reference/mapa-del-sistema.html">Abrir referencia: mapa del sistema →</a>
+    <span>¿Algo no está claro? Preguntale al agente: es tu profesor durante el recorrido.</span>
+  </nav>
+</main>
+<script src="../assets/retrieval.js"></script>
+</body>
+</html>
