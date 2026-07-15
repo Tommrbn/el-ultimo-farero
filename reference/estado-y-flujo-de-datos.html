@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Referencia: estado y flujo de datos</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">Referencia imprimible · v1</p>
+  <h1>Estado y flujo de datos</h1>
+  <p class="lead">Cómo seguir una variable sin perderse en todo el programa.</p>
+
+  <section class="map" aria-label="Ciclo de una variable">
+    <article><small>1 · Declarar</small><strong>nombre</strong><br>Se reserva una memoria identificable.</article>
+    <article><small>2 · Inicializar</small><strong>valor inicial</strong><br>El dato comienza en un estado conocido.</article>
+    <article><small>3 · Leer</small><strong>valor actual</strong><br>Una regla consulta qué hay guardado.</article>
+    <article><small>4 · Modificar</small><strong>valor nuevo</strong><br>Un evento transforma el estado.</article>
+    <article><small>5 · Representar</small><strong>salida</strong><br>La interfaz o el mundo muestran el resultado.</article>
+  </section>
+
+  <h2>Ejemplo real</h2>
+  <table>
+    <thead><tr><th>Paso</th><th>main.gd</th><th>Significado</th></tr></thead>
+    <tbody>
+      <tr><td>Estado inicial</td><td><code>var tiempo_partida := 0.0</code></td><td>El contador empieza en cero segundos.</td></tr>
+      <tr><td>Transición</td><td><code>tiempo_partida += delta</code></td><td>Cada frame recuerda lo anterior y suma el tiempo nuevo.</td></tr>
+      <tr><td>Representación</td><td><code>etiqueta_tiempo.text = ...</code></td><td>La interfaz convierte el número en un reloj visible.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Preguntas de rastreo</h2>
+  <div class="card">
+    <ol>
+      <li>¿Dónde se declara y con qué valor comienza?</li>
+      <li>¿Qué funciones leen la variable?</li>
+      <li>¿Qué líneas pueden modificarla?</li>
+      <li>¿Qué parte visible depende de ella?</li>
+    </ol>
+  </div>
+
+  <p class="source">Fuente de sintaxis: <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html">Referencia oficial de GDScript</a>.</p>
+  <nav class="next"><a href="../lessons/0003-como-recuerda-el-juego.html">← Volver a la Lección 3</a></nav>
+</main>
+</body>
+</html>

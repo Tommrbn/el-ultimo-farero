@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lección 3: cómo recuerda el juego</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">Lección 3 · Estado · 12 minutos</p>
+  <h1>Cómo recuerda el juego</h1>
+  <p class="lead"><code>_process(delta)</code> se repite, pero cada frame no empieza desde cero. Las variables conservan lo ocurrido y forman el estado actual de la partida.</p>
+
+  <div class="win"><strong>Victoria tangible:</strong> rastrear una variable real desde su valor inicial hasta su representación en pantalla.</div>
+
+  <h2>1. Código no es lo mismo que estado</h2>
+  <div class="card">
+    <p><strong>Código:</strong> instrucciones que permanecen escritas, como “sumá delta”.</p>
+    <p><strong>Estado:</strong> valores que cambian mientras jugás, como “llevamos 37.4 segundos”.</p>
+  </div>
+  <p>Una variable es un nombre asociado a un valor. En este proyecto, <code>tiempo_partida</code> funciona como una memoria: cada frame lee el tiempo acumulado, suma <code>delta</code> y guarda el nuevo resultado.</p>
+
+  <h2>2. Seguí un dato de punta a punta</h2>
+  <section class="map" aria-label="Flujo de tiempo_partida">
+    <article><small>main.gd · línea 29</small><strong>Declarar</strong><br><code>tiempo_partida</code></article>
+    <article><small>Valor inicial</small><strong>0.0</strong><br>La partida todavía no avanzó.</article>
+    <article><small>main.gd · línea 77</small><strong>Actualizar</strong><br>Se suma <code>delta</code>.</article>
+    <article><small>Estado</small><strong>Se conserva</strong><br>El próximo frame recibe el total anterior.</article>
+    <article><small>main.gd · línea 321</small><strong>Mostrar</strong><br>La interfaz dibuja el reloj.</article>
+  </section>
+
+  <pre class="card"><code>var tiempo_partida := 0.0      # nace
+
+func _process(delta):
+    tiempo_partida += delta    # cambia y recuerda
+
+etiqueta_tiempo.text = ...     # se representa</code></pre>
+
+  <p>En GDScript, <code>var</code> declara una variable. El operador <code>+=</code> significa “tomá el valor actual, sumale lo de la derecha y guardá el resultado”. La <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html">referencia oficial de GDScript</a> documenta variables y operadores.</p>
+
+  <h2>3. Manipulá el estado</h2>
+  <div class="loop-lab" data-state-trace>
+    <h3>Laboratorio de tiempo_partida</h3>
+    <p>Cada botón simula un frame. Alterná entre deltas y observá que el valor anterior nunca se pierde.</p>
+    <div class="loop-controls">
+      <button type="button" data-step="0.016">Frame de 0.016 s</button>
+      <button type="button" data-step="0.033">Frame de 0.033 s</button>
+      <button type="button" data-reset>Reiniciar estado</button>
+    </div>
+    <div class="loop-stats">
+      <div class="loop-stat"><small>tiempo_partida</small><output data-time>0.000</output></div>
+      <div class="loop-stat"><small>Frames aplicados</small><output data-frame>0</output></div>
+      <div class="loop-stat"><small>Reloj visible</small><output data-clock>0:00</output></div>
+    </div>
+    <div class="event-log" data-log aria-live="polite">tiempo_partida comienza en 0.0</div>
+  </div>
+
+  <h2>4. La misma idea gobierna la partida</h2>
+  <table>
+    <thead><tr><th>Variable</th><th>Qué recuerda</th><th>Evento que la cambia</th></tr></thead>
+    <tbody>
+      <tr><td><code>xp</code></td><td>Experiencia acumulada.</td><td>Recoger una gema.</td></tr>
+      <tr><td><code>nivel</code></td><td>Nivel alcanzado.</td><td>Superar la experiencia necesaria.</td></tr>
+      <tr><td><code>eliminados</code></td><td>Criaturas derrotadas.</td><td>Eliminar un enemigo.</td></tr>
+      <tr><td><code>terminado</code></td><td>Si la partida finalizó.</td><td>La vida llega a cero.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Recuperá el flujo</h2>
+  <div class="retrieval" data-retrieval data-match="exact" data-answer="0|0.0|cero" data-hint="Pista: buscá el valor que aparece junto a := cuando se declara.">
+    <label for="q1">¿Con qué valor comienza tiempo_partida?</label>
+    <div class="answer-row"><input id="q1" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <div class="retrieval" data-retrieval data-match="exact" data-answer="0.05|0,05" data-hint="Pista: el segundo frame conserva 0.02 y le suma 0.03.">
+    <label for="q2">Si llegan dos frames con delta 0.02 y 0.03, ¿qué valor queda guardado?</label>
+    <div class="answer-row"><input id="q2" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <div class="retrieval" data-retrieval data-answer="recordar|guardar|conservar|mantener" data-hint="Pista: el próximo frame necesita acceder al resultado del anterior.">
+    <label for="q3">¿Por qué tiempo_partida necesita ser una variable?</label>
+    <div class="answer-row"><input id="q3" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <h2>Idea que debe quedar</h2>
+  <div class="win">El estado es la memoria actual del juego. Una regla lee esa memoria, la transforma y guarda un estado nuevo; la interfaz representa una parte de ese resultado.</div>
+
+  <p class="source"><strong>Lectura primaria recomendada:</strong> <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html">Referencia de GDScript</a>. Consultá solo “Variables” y “Operators”; no intentes leer la página completa.</p>
+
+  <nav class="next">
+    <a href="0002-ready-process-y-delta.html">← Repasar Lección 2</a>
+    <a href="../reference/estado-y-flujo-de-datos.html">Referencia: estado y datos →</a>
+    <span>Cuando termines, contame con tus palabras cómo viaja tiempo_partida.</span>
+  </nav>
+</main>
+<script src="../assets/state-trace.js"></script>
+<script src="../assets/retrieval.js"></script>
+</body>
+</html>

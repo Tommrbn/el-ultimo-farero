@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lección 2: ready, process y delta</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">Lección 2 · Ciclo del juego · 12 minutos</p>
+  <h1>Una vez o cada frame</h1>
+  <p class="lead">Ya sabés que <code>main.gd</code> dirige la partida. Ahora vas a distinguir sus dos ritmos: preparar el mundo una vez y actualizarlo repetidamente.</p>
+
+  <div class="win"><strong>Victoria tangible:</strong> mirar una instrucción y predecir si debe ejecutarse una sola vez o durante cada frame.</div>
+
+  <h2>1. Descendé una capa</h2>
+  <section class="map" aria-label="Acercamiento desde el sistema hasta el ciclo del director">
+    <article><small>Ya dominado</small><strong>F5</strong><br>Arranca el proyecto.</article>
+    <article><small>Ya dominado</small><strong>main.gd</strong><br>Dirige la partida.</article>
+    <article><small>Ritmo 1</small><strong>_ready()</strong><br>Prepara una vez.</article>
+    <article><small>Ritmo 2</small><strong>_process(delta)</strong><br>Actualiza cada frame.</article>
+    <article><small>Resultado</small><strong>estado nuevo</strong><br>Godot dibuja y repite.</article>
+  </section>
+
+  <p>Cuando un nodo queda listo dentro del árbol, Godot llama a <code>_ready()</code>. Si el procesamiento está habilitado, llama a <code>_process(delta)</code> durante cada frame. Son funciones virtuales del nodo: el motor decide cuándo llamarlas; el juego decide qué hacen. <a href="https://docs.godotengine.org/en/stable/classes/class_node.html">Referencia oficial de Node</a>.</p>
+
+  <h2>2. Leé responsabilidades, no sintaxis</h2>
+  <table>
+    <thead><tr><th>En main.gd</th><th>Qué hace</th><th>Por qué vive allí</th></tr></thead>
+    <tbody>
+      <tr><td><code>_ready()</code></td><td>Define el color, configura teclas, crea jugador e interfaz.</td><td>Son preparativos necesarios una sola vez.</td></tr>
+      <tr><td><code>_process(delta)</code></td><td>Avanza tiempo, genera enemigos, dispara, resuelve contactos y refresca la interfaz.</td><td>La partida debe cambiar mientras corre.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Si crearas al jugador dentro de <code>_process()</code>, intentarías crear otro en cada frame. Si pusieras el movimiento únicamente en <code>_ready()</code>, solo daría un paso al comenzar. La ubicación de una instrucción define su frecuencia.</p>
+
+  <h2>3. Simulá el motor</h2>
+  <div class="loop-lab" data-game-loop>
+    <h3>Laboratorio del ciclo</h3>
+    <p>Arrancá la escena una vez. Después avanzá varios frames y observá qué contador permanece fijo.</p>
+    <div class="loop-controls">
+      <button type="button" data-start>Arrancar escena</button>
+      <button type="button" data-next disabled>Avanzar un frame</button>
+      <button type="button" data-reset>Reiniciar</button>
+    </div>
+    <div class="loop-stats">
+      <div class="loop-stat"><small>Llamadas a _ready()</small><output data-ready-count>0</output></div>
+      <div class="loop-stat"><small>Llamadas a _process()</small><output data-frame-count>0</output></div>
+      <div class="loop-stat"><small>Tiempo simulado</small><output data-elapsed>0.000 s</output></div>
+    </div>
+    <div class="event-log" data-log aria-live="polite">Esperando que arranque la escena…</div>
+  </div>
+
+  <h2>4. Entendé delta sin matemáticas difíciles</h2>
+  <p><code>delta</code> es el tiempo transcurrido desde el frame anterior, medido en segundos. Un equipo rápido produce más frames pequeños; uno lento, menos frames grandes. Multiplicar una velocidad por <code>delta</code> permite expresar movimiento por segundo y reduce la dependencia de la cantidad de frames. <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html">Documentación oficial: primer script</a>.</p>
+
+  <div class="card">
+    <p><strong>Equipo A:</strong> 60 pasos de aproximadamente 0,016 segundos.</p>
+    <p><strong>Equipo B:</strong> 30 pasos de aproximadamente 0,033 segundos.</p>
+    <p>En ambos casos, la suma se acerca a un segundo. La velocidad debe describir cuánto avanzar en ese segundo, no cuánto avanzar por frame.</p>
+  </div>
+
+  <h2>5. Recuperá las decisiones</h2>
+  <div class="retrieval" data-retrieval data-answer="ready|_ready" data-hint="Pista: la interfaz debe construirse al preparar el juego, no repetirse en cada frame.">
+    <label for="q1">¿Dónde crearías la interfaz inicial: en _ready o en _process?</label>
+    <div class="answer-row"><input id="q1" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <div class="retrieval" data-retrieval data-answer="process|_process" data-hint="Pista: el temporizador debe cambiar mientras la partida sigue corriendo.">
+    <label for="q2">¿Dónde actualizarías el tiempo de partida: en _ready o en _process?</label>
+    <div class="answer-row"><input id="q2" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <div class="retrieval" data-retrieval data-answer="tiempo desde el frame anterior|segundos desde el frame anterior|tiempo entre frames" data-hint="Pista: no es la cantidad total de frames ni la velocidad del objeto.">
+    <label for="q3">¿Qué representa delta?</label>
+    <div class="answer-row"><input id="q3" autocomplete="off"><button type="button">Comprobar</button></div>
+    <p class="feedback" aria-live="polite"></p>
+  </div>
+
+  <h2>Idea que debe quedar</h2>
+  <div class="win"><code>_ready()</code> prepara. <code>_process(delta)</code> mantiene el juego vivo. <code>delta</code> traduce frames a tiempo.</div>
+
+  <p class="source"><strong>Lectura primaria recomendada:</strong> <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html">Creando tu primer script</a>. Concentrate únicamente en la explicación de <code>_process(delta)</code>.</p>
+
+  <nav class="next">
+    <a href="0001-del-f5-al-primer-frame.html">← Repasar Lección 1</a>
+    <a href="../reference/ciclo-del-juego.html">Referencia: ciclo del juego →</a>
+    <a href="0003-como-recuerda-el-juego.html">Continuar a la Lección 3 →</a>
+    <span>Cuando termines, avisame y comprobaremos el modelo sin mirar la página.</span>
+  </nav>
+</main>
+<script src="../assets/game-loop.js"></script>
+<script src="../assets/retrieval.js"></script>
+</body>
+</html>

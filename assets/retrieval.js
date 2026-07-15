@@ -15,7 +15,8 @@ document.querySelectorAll("[data-retrieval]").forEach((exercise) => {
 
   function check() {
     const response = normalize(input.value);
-    const correct = accepted.some((answer) => response.includes(answer));
+    const exact = exercise.dataset.match === "exact";
+    const correct = accepted.some((answer) => exact ? response === answer : response.includes(answer));
     feedback.textContent = correct
       ? "Correcto. Recuperaste la relación sin verla."
       : exercise.dataset.hint;

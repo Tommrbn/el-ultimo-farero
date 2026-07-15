@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Referencia: ciclo del juego</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">Referencia imprimible · v1</p>
+  <h1>Ciclo del juego</h1>
+  <p class="lead">Tres conceptos para saber cuándo se ejecuta una instrucción.</p>
+
+  <table>
+    <thead><tr><th>Concepto</th><th>Frecuencia</th><th>Uso en El Último Farero</th></tr></thead>
+    <tbody>
+      <tr><td><code>_ready()</code></td><td>Una vez, cuando el nodo está listo.</td><td>Configura teclas, crea al jugador y construye la interfaz.</td></tr>
+      <tr><td><code>_process(delta)</code></td><td>Una vez por cada frame procesado.</td><td>Avanza el tiempo, genera enemigos, dispara, resuelve impactos y actualiza la interfaz.</td></tr>
+      <tr><td><code>delta</code></td><td>Un valor nuevo en cada llamada.</td><td>Representa los segundos transcurridos desde el frame anterior.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Regla de decisión</h2>
+  <div class="card">
+    <p><strong>¿Debe ocurrir al preparar el objeto?</strong> Pensá en <code>_ready()</code>.</p>
+    <p><strong>¿Debe cambiar mientras el juego está corriendo?</strong> Pensá en <code>_process(delta)</code>.</p>
+    <p><strong>¿Depende del paso del tiempo?</strong> Usá <code>delta</code> para expresar segundos, no cantidad de frames.</p>
+  </div>
+
+  <h2>Ejemplo de velocidad estable</h2>
+  <div class="win"><code>distancia = velocidad × delta</code><br>En un segundo, muchos pasos pequeños y pocos pasos grandes deben sumar aproximadamente la misma distancia.</div>
+
+  <p class="source">Fuentes: <a href="https://docs.godotengine.org/en/stable/classes/class_node.html">Node</a> y <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html">Primer script en GDScript</a>.</p>
+  <nav class="next">
+    <a href="../lessons/0002-ready-process-y-delta.html">← Volver a la Lección 2</a>
+    <a href="../lessons/0003-como-recuerda-el-juego.html">Continuar a la Lección 3 →</a>
+  </nav>
+</main>
+</body>
+</html>
